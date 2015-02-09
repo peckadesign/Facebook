@@ -25,6 +25,11 @@ class LoginDialog extends Facebook\Dialog\AbstractDialog
 	 */
 	private $scope;
 
+	/**
+	 * @var string
+	 */
+	private $authType;
+
 
 
 	/**
@@ -46,7 +51,7 @@ class LoginDialog extends Facebook\Dialog\AbstractDialog
 	 */
 	public function handleOpen()
 	{
-		if (!$this->facebook->getUser()) { // no user
+		if (!$this->facebook->getUser() || $this->authType) { // no user
 			$this->open();
 		}
 
@@ -65,6 +70,15 @@ class LoginDialog extends Facebook\Dialog\AbstractDialog
 		$this->scope = implode(',', (array)$scope);
 	}
 
+
+	/**
+	 * @see https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.1
+	 * @param string|array $authType
+	 */
+	public function setAuthType($authType)
+	{
+		$this->authType = implode(',', (array)$authType);
+	}
 
 
 	/**
@@ -89,6 +103,12 @@ class LoginDialog extends Facebook\Dialog\AbstractDialog
 
 		} elseif ($scope = $this->facebook->config->permissions) {
 			$params['scope'] = implode(',', (array)$scope);
+		}
+
+		// authType
+		if ($this->authType) {
+			$params['auth_type'] = implode(',', (array) $this->authType);
+
 		}
 
 		return $params;
