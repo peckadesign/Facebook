@@ -69,7 +69,6 @@ abstract class AbstractDialog extends PresenterComponent implements Facebook\Dia
 		$this->config = $facebook->config;
 		$this->currentUrl = $facebook->getCurrentUrl();
 
-		$this->monitor('Nette\Application\UI\Presenter');
 		parent::__construct();
 	}
 
