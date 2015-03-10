@@ -48,9 +48,13 @@ class LoginDialog extends Facebook\Dialog\AbstractDialog
 	 * Checks, if there is a user in storage and if not, it redirects to login dialog.
 	 * If the user is already in session storage, it will behave, as if were redirected from facebook right now,
 	 * this means, it will directly call onResponse event.
+	 *
+	 * @see https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.1
+	 * @param string $authType
 	 */
-	public function handleOpen()
+	public function handleOpen($authType = NULL)
 	{
+		$this->authType = $authType;
 		if (!$this->facebook->getUser() || $this->authType) { // no user
 			$this->open();
 		}
